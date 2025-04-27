@@ -1,10 +1,9 @@
 tensorflow==2.10.0
 keras==2.10.0
 yfinance
-numpy
-pandas
+numpy==1.23.0
+pandas==1.5.3
 scikit-learn
 matplotlib
-streamlit
-google-generativeai
 streamlit==1.20.0
+google-generativeai
