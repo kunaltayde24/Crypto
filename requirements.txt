@@ -7,3 +7,4 @@ scikit-learn
 matplotlib
 streamlit
 google-generativeai
+streamlit==1.20.0
