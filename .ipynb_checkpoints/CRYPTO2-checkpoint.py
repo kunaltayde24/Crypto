@@ -92,36 +92,21 @@ if not data.empty:
     # Define the cutoff date (April 2025)
     cutoff_date = pd.Timestamp('2025-04-01')
 
-# Check if the user-selected end date is beyond April 2025
-if pd.Timestamp(end_date) <= cutoff_date:
-    # Prepare data for prediction
-    prices = data['Close'].values
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    scaled_data = scaler.fit_transform(prices.reshape(-1, 1))
+    # Check if the user-selected end date is beyond April 2025
+    if pd.Timestamp(end_date) <= cutoff_date:
+        # Plot actual vs predicted prices only if within the valid range
+        st.subheader("📊 Actual vs Predicted Prices")
+        plt.figure(figsize=(10, 5))
+        plt.plot(data.index, prices, label="Actual Prices")
+        plt.plot(future_dates, future_predictions, label="Predicted Prices", linestyle='dashed', color='red')
+        plt.xticks(rotation=45)
+        plt.legend()
+        plt.xlabel("Date")
+        plt.ylabel("Price")
+        st.pyplot(plt)
+    else:
+        st.warning("⚠️ You selected an Future Date")
 
-    x_test = []
-    for i in range(60, len(scaled_data)):
-        x_test.append(scaled_data[i-60:i, 0])
-    x_test = np.array(x_test)
-    x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
-
-    # Make predictions
-    predictions = model.predict(x_test)
-    predictions = scaler.inverse_transform(predictions)
-
-    # Plot predictions
-    st.subheader("Predicted Prices vs. Actual Prices")
-    plt.figure(figsize=(10, 5))
-    plt.plot(prices[60:], label="Actual Prices")
-    plt.plot(range(60, len(predictions) + 60), predictions, label="Predicted Prices")
-    plt.legend()
-    plt.xlabel("Date")
-    plt.ylabel("Price")
-    st.pyplot(plt)
-else:
-    st.error("Future Date Selected.")
-
-                
     # Plot only future predictions
     st.subheader("🔮 Future Price Prediction")
     plt.figure(figsize=(10, 5))
@@ -131,6 +116,9 @@ else:
     plt.xlabel("Date (Months)")
     plt.ylabel("Price")
     st.pyplot(plt)
+
+else:
+    st.error("❌ No data found for the selected cryptocurrency and date range.")
 
 
 import google.generativeai as genai
