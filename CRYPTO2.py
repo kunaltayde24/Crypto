@@ -7,7 +7,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 # Load trained model
-model = load_model(r"E:\ML\Projects\CRYTO\crypto_predictor.h5")
+model = load_model("models/crypto_predictor.h5")
 
 # Set background image
 def set_background_image(image_url):
