@@ -1,8 +1,9 @@
+tensorflow==2.10.0
+keras==2.10.0
 yfinance
 numpy
 pandas
 scikit-learn
 matplotlib
-keras
 streamlit
-tensorflow==2.10.0
+google-generativeai
