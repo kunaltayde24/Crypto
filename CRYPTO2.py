@@ -6,8 +6,23 @@ from keras.models import load_model
 import streamlit as st
 import matplotlib.pyplot as plt
 
-# Load trained model
-model = load_model("models/crypto_predictor.h5")
+import os
+import requests
+from keras.models import load_model
+
+# Model path and URL from GitHub
+model_path = "models/crypto_predictor.h5"
+model_url = "https://raw.githubusercontent.com/kunaltayde24/Crypto/main/models/crypto_predictor.h5"
+
+# Download the model if it doesn't exist
+if not os.path.exists(model_path):
+    response = requests.get(model_url)
+    os.makedirs(os.path.dirname(model_path), exist_ok=True)
+    with open(model_path, 'wb') as f:
+        f.write(response.content)
+
+# Load the model
+model = load_model(model_path)
 
 # Set background image
 def set_background_image(image_url):
